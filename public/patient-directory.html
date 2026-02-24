@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Directory | AsterCare Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="logo">AsterCare Hospital</h2>
+        <nav class="menu">
+          <a href="/dashboard.html">Dashboard</a>
+          <a href="/patients.html">Patient Registration</a>
+          <a href="/patient-directory.html" class="active">Patient Directory</a>
+          <a href="/doctors.html">Doctors</a>
+          <a href="/records.html">Clinical Details</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Patient Directory</h1>
+            <p id="user-label">Welcome</p>
+          </div>
+          <button id="logout-btn" class="btn ghost">Logout</button>
+        </header>
+
+        <section class="panel">
+          <div class="form-grid">
+            <div>
+              <label>Search by name / ID / phone</label>
+              <input id="search" placeholder="Type to filter patients..." />
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" style="margin-top:14px;">
+          <div id="patients-list" class="list"></div>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/shared.js"></script>
+    <script src="js/patient-directory.js"></script>
+  </body>
+</html>

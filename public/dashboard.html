@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | AsterCare Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="logo">AsterCare Hospital</h2>
+        <nav class="menu">
+          <a href="/dashboard.html" class="active">Dashboard</a>
+          <a href="/patients.html">Patient Registration</a>
+          <a href="/patient-directory.html">Patient Directory</a>
+          <a href="/doctors.html">Doctors</a>
+          <a href="/records.html">Clinical Details</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Dashboard</h1>
+            <p id="user-label">Welcome</p>
+          </div>
+          <button id="logout-btn" class="btn ghost">Logout</button>
+        </header>
+
+        <section class="grid four">
+          <article class="card metric">
+            <h3>Total Patients</h3>
+            <strong id="m-total">0</strong>
+          </article>
+          <article class="card metric">
+            <h3>Admitted</h3>
+            <strong id="m-admitted">0</strong>
+          </article>
+          <article class="card metric">
+            <h3>Bills Pending</h3>
+            <strong id="m-pending">0</strong>
+          </article>
+          <article class="card metric">
+            <h3>Paid Bills</h3>
+            <strong id="m-paid">0</strong>
+          </article>
+        </section>
+
+        <section class="panel" style="margin-top: 14px">
+          <h2>Quick Access</h2>
+          <div class="grid two">
+            <article class="card">
+              <h3>Register New Patient</h3>
+              <p>Create and update patient profiles with contact, doctor, and billing information.</p>
+              <a href="/patients.html" class="btn primary" style="display:inline-block;text-decoration:none;">Open Registration</a>
+            </article>
+            <article class="card">
+              <h3>Patient Directory</h3>
+              <p>Browse, search, edit, or remove patient records in a dedicated directory view.</p>
+              <a href="/patient-directory.html" class="btn primary" style="display:inline-block;text-decoration:none;">Open Directory</a>
+            </article>
+            <article class="card">
+              <h3>Doctor Management</h3>
+              <p>Add, view, and edit doctor profiles and consultation charges.</p>
+              <a href="/doctors.html" class="btn primary" style="display:inline-block;text-decoration:none;">Open Doctors</a>
+            </article>
+            <article class="card">
+              <h3>Manage Clinical Details</h3>
+              <p>Update diagnoses, treatment records, medicine plans, address, and billing state.</p>
+              <a href="/records.html" class="btn primary" style="display:inline-block;text-decoration:none;">Open Clinical Details</a>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/shared.js"></script>
+    <script src="js/dashboard.js"></script>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Registration | AsterCare Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="logo">AsterCare Hospital</h2>
+        <nav class="menu">
+          <a href="/dashboard.html">Dashboard</a>
+          <a href="/patients.html" class="active">Patient Registration</a>
+          <a href="/patient-directory.html">Patient Directory</a>
+          <a href="/doctors.html">Doctors</a>
+          <a href="/records.html">Clinical Details</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Patient Registration</h1>
+            <p id="user-label">Welcome</p>
+          </div>
+          <button id="logout-btn" class="btn ghost">Logout</button>
+        </header>
+
+        <section class="panel">
+          <div class="topbar" style="margin-bottom:10px;">
+            <div>
+              <h1 style="margin:0;font-size:1rem;">Patient Profile</h1>
+              <p>Create a new patient or load one for editing.</p>
+            </div>
+            <a href="/patient-directory.html" class="btn ghost" style="text-decoration:none;">Open Patient Directory</a>
+          </div>
+          <article>
+            <form id="patient-form" class="form-grid">
+              <input type="hidden" id="patient-doc-id" />
+              <input type="hidden" id="init-treatment-item-id" />
+              <input type="hidden" id="init-medicine-item-id" />
+              <div><label>Patient ID</label><input id="patientId" type="number" required /></div>
+              <div><label>Name</label><input id="name" required /></div>
+              <div><label>Age</label><input id="age" type="number" min="0" required /></div>
+              <div>
+                <label>Gender</label>
+                <select id="gender" required>
+                  <option value="">Select</option>
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div><label>Phone</label><input id="phone" required /></div>
+              <div><label>Email</label><input id="email" type="email" required /></div>
+              <div><label>Blood Group</label><input id="bloodGroup" required /></div>
+              <div>
+                <label>Admission Status</label>
+                <select id="isAdmitted" required>
+                  <option value="true">Admitted</option>
+                  <option value="false">Not Admitted</option>
+                </select>
+              </div>
+              <div><label>Admission Date</label><input id="admissionDate" type="date" required /></div>
+              <div><label>Street</label><input id="street" required /></div>
+              <div><label>City</label><input id="city" required /></div>
+              <div><label>State</label><input id="state" required /></div>
+              <div><label>Pincode</label><input id="pincode" type="number" required /></div>
+              <div><label>Doctor ID</label><input id="doctorId" type="number" required /></div>
+              <div><label>Doctor Name</label><input id="doctorName" required /></div>
+              <div><label>Specialization</label><input id="doctorSpecialization" required /></div>
+              <div><label>Doctor Phone</label><input id="doctorPhone" required /></div>
+              <div><label>Diseases (comma separated)</label><input id="diseasesSeed" /></div>
+              <div><label>Initial Treatment Date</label><input id="initTreatmentDate" type="date" /></div>
+              <div><label>Initial Treatment Description</label><input id="initTreatmentDescription" /></div>
+              <div><label>Initial Treatment Cost</label><input id="initTreatmentCost" type="number" min="0" /></div>
+              <div><label>Initial Medicine Name</label><input id="initMedicineName" /></div>
+              <div><label>Initial Medicine Dosage</label><input id="initMedicineDosage" placeholder="500mg / 1 tablet" /></div>
+              <div><label>Initial Medicine Duration</label><input id="initMedicineDuration" placeholder="5 days / 2 weeks" /></div>
+              <div><label>Room Charges</label><input id="roomCharges" type="number" min="0" value="0" required /></div>
+              <div>
+                <label>Treatment Charges</label>
+                <input id="treatmentCharges" type="number" min="0" value="0" required />
+              </div>
+              <div>
+                <label>Medicine Charges</label>
+                <input id="medicineCharges" type="number" min="0" value="0" required />
+              </div>
+              <div>
+                <label>Bill Status</label>
+                <select id="isPaid" required>
+                  <option value="true">Paid</option>
+                  <option value="false">Pending</option>
+                </select>
+              </div>
+              <button class="btn primary" type="submit">Save Patient</button>
+              <button id="cancel-edit" class="btn ghost hidden" type="button">Cancel Edit</button>
+            </form>
+          </article>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/shared.js"></script>
+    <script src="js/patients.js"></script>
+  </body>
+</html>

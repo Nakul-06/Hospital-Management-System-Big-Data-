@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clinical Details | AsterCare Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="logo">AsterCare Hospital</h2>
+        <nav class="menu">
+          <a href="/dashboard.html">Dashboard</a>
+          <a href="/patients.html">Patient Registration</a>
+          <a href="/patient-directory.html">Patient Directory</a>
+          <a href="/doctors.html">Doctors</a>
+          <a href="/records.html" class="active">Clinical Details</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Clinical Details Management</h1>
+            <p id="user-label">Welcome</p>
+          </div>
+          <button id="logout-btn" class="btn ghost">Logout</button>
+        </header>
+
+        <section class="panel" style="margin-bottom:14px;">
+          <h2>Select Patient</h2>
+          <div class="form-grid">
+            <div>
+              <label>Patient</label>
+              <select id="patient-select"></select>
+            </div>
+            <div>
+              <label>Selected</label>
+              <input id="selected-label" readonly />
+            </div>
+          </div>
+        </section>
+
+        <section class="grid three">
+          <article class="panel">
+            <h3>Address Details</h3>
+            <form id="address-form" class="auth-form">
+              <input id="editStreet" placeholder="Street" required />
+              <input id="editCity" placeholder="City" required />
+              <input id="editState" placeholder="State" required />
+              <input id="editPincode" type="number" placeholder="Pincode" required />
+              <button class="btn primary">Update Address</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Attending Doctor</h3>
+            <form id="doctor-form" class="auth-form">
+              <input id="editDoctorId" type="number" placeholder="Doctor ID" required />
+              <input id="editDoctorName" placeholder="Name" required />
+              <input id="editDoctorSpecialization" placeholder="Specialization" required />
+              <input id="editDoctorPhone" placeholder="Phone" required />
+              <button class="btn primary">Update Doctor</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h3>Billing Summary</h3>
+            <form id="bill-form" class="auth-form">
+              <input id="editRoomCharges" type="number" min="0" placeholder="Room Charges" required />
+              <input id="editTreatmentCharges" type="number" min="0" placeholder="Treatment Charges" required />
+              <input id="editMedicineCharges" type="number" min="0" placeholder="Medicine Charges" required />
+              <select id="editIsPaid" required>
+                <option value="true">Paid</option>
+                <option value="false">Pending</option>
+              </select>
+              <button class="btn primary">Update Bill</button>
+            </form>
+          </article>
+        </section>
+
+        <section class="grid three" style="margin-top:14px;">
+          <article class="panel">
+            <h3>Diagnosed Conditions</h3>
+            <form id="disease-form" class="auth-form">
+              <input type="hidden" id="disease-index" />
+              <input id="disease-name" placeholder="Condition name" required />
+              <button class="btn primary">Save</button>
+            </form>
+            <div id="diseases-list" class="list"></div>
+          </article>
+
+          <article class="panel">
+            <h3>Treatment History</h3>
+            <form id="treatment-form" class="auth-form">
+              <input type="hidden" id="treatment-id" />
+              <input id="treatment-date" type="date" required />
+              <input id="treatment-desc" placeholder="Description" required />
+              <input id="treatment-cost" type="number" min="0" placeholder="Cost" required />
+              <button class="btn primary">Save</button>
+            </form>
+            <div id="treatments-list" class="list"></div>
+          </article>
+
+          <article class="panel">
+            <h3>Medication Plan</h3>
+            <form id="medicine-form" class="auth-form">
+              <input type="hidden" id="medicine-id" />
+              <input id="medicine-name" placeholder="Medicine name" required />
+              <input id="medicine-dosage" placeholder="Dosage" required />
+              <input id="medicine-duration" placeholder="Duration" required />
+              <button class="btn primary">Save</button>
+            </form>
+            <div id="medicines-list" class="list"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/shared.js"></script>
+    <script src="js/records.js"></script>
+  </body>
+</html>

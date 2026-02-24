@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctors | AsterCare Hospital</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="site.css" />
+  </head>
+  <body>
+    <div class="layout">
+      <aside class="sidebar">
+        <h2 class="logo">AsterCare Hospital</h2>
+        <nav class="menu">
+          <a href="/dashboard.html">Dashboard</a>
+          <a href="/patients.html">Patient Registration</a>
+          <a href="/patient-directory.html">Patient Directory</a>
+          <a href="/doctors.html" class="active">Doctors</a>
+          <a href="/records.html">Clinical Details</a>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <h1>Doctor Management</h1>
+            <p id="user-label">Welcome</p>
+          </div>
+          <button id="logout-btn" class="btn ghost">Logout</button>
+        </header>
+
+        <section class="grid two">
+          <article class="panel">
+            <h2>Add / Edit Doctor</h2>
+            <form id="doctor-form" class="form-grid">
+              <input type="hidden" id="doctor-doc-id" />
+              <div>
+                <label>Doctor ID</label>
+                <input id="doctorId" type="number" required />
+              </div>
+              <div>
+                <label>Full Name</label>
+                <input id="name" required />
+              </div>
+              <div>
+                <label>Specialization</label>
+                <input id="specialization" required />
+              </div>
+              <div>
+                <label>Phone</label>
+                <input id="phone" required />
+              </div>
+              <div>
+                <label>Fee Per Visit</label>
+                <input id="feePerVisit" type="number" min="0" required />
+              </div>
+              <button class="btn primary" type="submit">Save Doctor</button>
+              <button id="cancel-edit" class="btn ghost hidden" type="button">Cancel Edit</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h2>Doctors Directory</h2>
+            <div>
+              <label>Search</label>
+              <input id="search" placeholder="Search by name, ID, specialization..." />
+            </div>
+            <div id="doctors-list" class="list" style="margin-top:10px;"></div>
+          </article>
+        </section>
+      </main>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/shared.js"></script>
+    <script src="js/doctors.js"></script>
+  </body>
+</html>
