@@ -6,21 +6,8 @@ function byId(id) {
   return document.getElementById(id);
 }
 
-function filteredPatients() {
-  const q = byId("search").value.trim().toLowerCase();
-  if (!q) return allPatients;
-  return allPatients.filter((raw) => {
-    const p = normalizePatient(raw);
-    return (
-      String(p.patientId).toLowerCase().includes(q) ||
-      p.name.toLowerCase().includes(q) ||
-      p.phone.toLowerCase().includes(q)
-    );
-  });
-}
-
 function render() {
-  const rows = filteredPatients();
+  const rows = allPatients;
   byId("patients-list").innerHTML = rows
     .map((raw) => {
       const p = normalizePatient(raw);
@@ -40,11 +27,49 @@ function render() {
 }
 
 async function load() {
-  allPatients = await api("/api/patients");
+  const params = new URLSearchParams();
+  const values = {
+    q: byId("search").value.trim(),
+    city: byId("city").value.trim(),
+    specialization: byId("specialization").value.trim(),
+    disease: byId("disease").value.trim(),
+    isAdmitted: byId("isAdmitted").value,
+    isPaid: byId("isPaid").value,
+    sortBy: byId("sortBy").value,
+    order: byId("order").value,
+  };
+
+  Object.entries(values).forEach(([key, value]) => {
+    if (value !== "") params.set(key, value);
+  });
+
+  allPatients = await api(`/api/patients/search?${params.toString()}`);
   render();
 }
 
-byId("search").addEventListener("input", render);
+byId("apply-filters").addEventListener("click", async () => {
+  try {
+    await load();
+  } catch (error) {
+    showToast(error.message, true);
+  }
+});
+
+byId("clear-filters").addEventListener("click", async () => {
+  byId("search").value = "";
+  byId("city").value = "";
+  byId("specialization").value = "";
+  byId("disease").value = "";
+  byId("isAdmitted").value = "";
+  byId("isPaid").value = "";
+  byId("sortBy").value = "createdAt";
+  byId("order").value = "desc";
+  try {
+    await load();
+  } catch (error) {
+    showToast(error.message, true);
+  }
+});
 
 byId("patients-list").addEventListener("click", async (e) => {
   const id = e.target.getAttribute("data-delete");

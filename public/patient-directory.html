@@ -21,6 +21,7 @@
           <a href="/patients.html">Patient Registration</a>
           <a href="/patient-directory.html" class="active">Patient Directory</a>
           <a href="/doctors.html">Doctors</a>
+          <a href="/reports.html">Reports</a>
           <a href="/records.html">Clinical Details</a>
         </nav>
       </aside>
@@ -39,6 +40,55 @@
             <div>
               <label>Search by name / ID / phone</label>
               <input id="search" placeholder="Type to filter patients..." />
+            </div>
+            <div>
+              <label>City</label>
+              <input id="city" placeholder="e.g. Delhi" />
+            </div>
+            <div>
+              <label>Doctor Specialization</label>
+              <input id="specialization" placeholder="e.g. Cardiology" />
+            </div>
+            <div>
+              <label>Disease</label>
+              <input id="disease" placeholder="e.g. Migraine" />
+            </div>
+            <div>
+              <label>Admission</label>
+              <select id="isAdmitted">
+                <option value="">All</option>
+                <option value="true">Admitted</option>
+                <option value="false">Not Admitted</option>
+              </select>
+            </div>
+            <div>
+              <label>Bill Status</label>
+              <select id="isPaid">
+                <option value="">All</option>
+                <option value="true">Paid</option>
+                <option value="false">Pending</option>
+              </select>
+            </div>
+            <div>
+              <label>Sort By</label>
+              <select id="sortBy">
+                <option value="createdAt">Latest</option>
+                <option value="name">Name</option>
+                <option value="patientId">Patient ID</option>
+                <option value="admissionDate">Admission Date</option>
+                <option value="totalAmount">Bill Amount</option>
+              </select>
+            </div>
+            <div>
+              <label>Order</label>
+              <select id="order">
+                <option value="desc">Descending</option>
+                <option value="asc">Ascending</option>
+              </select>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:8px;">
+              <button id="apply-filters" class="btn primary" type="button">Apply Search/Filters</button>
+              <button id="clear-filters" class="btn ghost" type="button">Clear</button>
             </div>
           </div>
         </section>

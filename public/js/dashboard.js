@@ -1,17 +1,12 @@
-const { api, requireAuth, showToast, normalizePatient } = window.HMS;
+const { api, requireAuth, showToast } = window.HMS;
 
 async function loadMetrics() {
   try {
-    const rows = await api("/api/patients");
-    const patients = rows.map(normalizePatient);
-    const total = patients.length;
-    const admitted = patients.filter((p) => p.isAdmitted).length;
-    const pending = patients.filter((p) => !p.bill.isPaid).length;
-    const paid = patients.filter((p) => p.bill.isPaid).length;
-    document.getElementById("m-total").textContent = String(total);
-    document.getElementById("m-admitted").textContent = String(admitted);
-    document.getElementById("m-pending").textContent = String(pending);
-    document.getElementById("m-paid").textContent = String(paid);
+    const summary = await api("/api/patients/aggregate/summary");
+    document.getElementById("m-total").textContent = String(summary.totalPatients || 0);
+    document.getElementById("m-admitted").textContent = String(summary.admittedPatients || 0);
+    document.getElementById("m-pending").textContent = String(summary.pendingBills || 0);
+    document.getElementById("m-paid").textContent = String(summary.paidBills || 0);
   } catch (error) {
     showToast(error.message, true);
   }
@@ -20,5 +15,5 @@ async function loadMetrics() {
 (async () => {
   const user = await requireAuth();
   if (!user) return;
-  loadMetrics();
+  await loadMetrics();
 })();

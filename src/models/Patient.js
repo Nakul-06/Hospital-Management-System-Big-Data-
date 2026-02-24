@@ -55,4 +55,10 @@ const patientSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+patientSchema.index({ name: 1 });
+patientSchema.index({ "address.city": 1 });
+patientSchema.index({ "doctor.specialization": 1 });
+patientSchema.index({ "bill.isPaid": 1, isAdmitted: 1 });
+patientSchema.index({ diseases: 1 });
+
 module.exports = mongoose.model("Patient", patientSchema);

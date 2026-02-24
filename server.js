@@ -132,6 +132,176 @@ app.get("/api/patients", auth, async (_req, res) => {
   res.json(patients);
 });
 
+app.get("/api/patients/search", auth, async (req, res) => {
+  const {
+    q = "",
+    city = "",
+    specialization = "",
+    disease = "",
+    isAdmitted,
+    isPaid,
+    sortBy = "createdAt",
+    order = "desc",
+  } = req.query;
+
+  const match = {};
+
+  if (q.trim()) {
+    const rx = new RegExp(q.trim(), "i");
+    const numId = Number(q);
+    match.$or = [
+      { name: rx },
+      { phone: rx },
+      { email: rx },
+      { "doctor.name": rx },
+      ...(Number.isNaN(numId) ? [] : [{ patientId: numId }]),
+    ];
+  }
+
+  if (city.trim()) {
+    match["address.city"] = new RegExp(`^${city.trim()}$`, "i");
+  }
+
+  if (specialization.trim()) {
+    match["doctor.specialization"] = new RegExp(`^${specialization.trim()}$`, "i");
+  }
+
+  if (disease.trim()) {
+    match.diseases = new RegExp(`^${disease.trim()}$`, "i");
+  }
+
+  if (isAdmitted === "true" || isAdmitted === "false") {
+    match.isAdmitted = isAdmitted === "true";
+  }
+
+  if (isPaid === "true" || isPaid === "false") {
+    match["bill.isPaid"] = isPaid === "true";
+  }
+
+  const allowedSort = {
+    createdAt: "createdAt",
+    patientId: "patientId",
+    name: "name",
+    admissionDate: "admissionDate",
+    totalAmount: "bill.totalAmount",
+  };
+  const sortField = allowedSort[sortBy] || "createdAt";
+  const sortOrder = order === "asc" ? 1 : -1;
+
+  const patients = await Patient.find(match).sort({ [sortField]: sortOrder });
+  return res.json(patients);
+});
+
+app.get("/api/patients/aggregate/summary", auth, async (_req, res) => {
+  const [result] = await Patient.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalPatients: { $sum: 1 },
+        admittedPatients: { $sum: { $cond: ["$isAdmitted", 1, 0] } },
+        paidBills: { $sum: { $cond: ["$bill.isPaid", 1, 0] } },
+        pendingBills: { $sum: { $cond: ["$bill.isPaid", 0, 1] } },
+        totalRevenue: { $sum: "$bill.totalAmount" },
+        averageAge: { $avg: "$age" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        totalPatients: 1,
+        admittedPatients: 1,
+        paidBills: 1,
+        pendingBills: 1,
+        totalRevenue: 1,
+        averageAge: { $round: ["$averageAge", 1] },
+      },
+    },
+  ]);
+
+  return res.json(
+    result || {
+      totalPatients: 0,
+      admittedPatients: 0,
+      paidBills: 0,
+      pendingBills: 0,
+      totalRevenue: 0,
+      averageAge: 0,
+    }
+  );
+});
+
+app.get("/api/patients/aggregate/by-city", auth, async (_req, res) => {
+  const rows = await Patient.aggregate([
+    {
+      $group: {
+        _id: "$address.city",
+        count: { $sum: 1 },
+        admitted: { $sum: { $cond: ["$isAdmitted", 1, 0] } },
+      },
+    },
+    { $project: { _id: 0, city: "$_id", count: 1, admitted: 1 } },
+    { $sort: { count: -1, city: 1 } },
+  ]);
+  return res.json(rows);
+});
+
+app.get("/api/patients/aggregate/by-specialization", auth, async (_req, res) => {
+  const rows = await Patient.aggregate([
+    {
+      $group: {
+        _id: "$doctor.specialization",
+        count: { $sum: 1 },
+      },
+    },
+    { $project: { _id: 0, specialization: "$_id", count: 1 } },
+    { $sort: { count: -1, specialization: 1 } },
+  ]);
+  return res.json(rows);
+});
+
+app.get("/api/patients/aggregate/top-diseases", auth, async (_req, res) => {
+  const rows = await Patient.aggregate([
+    { $unwind: { path: "$diseases", preserveNullAndEmptyArrays: false } },
+    {
+      $group: {
+        _id: "$diseases",
+        count: { $sum: 1 },
+      },
+    },
+    { $project: { _id: 0, disease: "$_id", count: 1 } },
+    { $sort: { count: -1, disease: 1 } },
+    { $limit: 10 },
+  ]);
+  return res.json(rows);
+});
+
+app.get("/api/patients/aggregate/monthly-revenue", auth, async (_req, res) => {
+  const rows = await Patient.aggregate([
+    {
+      $group: {
+        _id: {
+          year: { $year: "$admissionDate" },
+          month: { $month: "$admissionDate" },
+        },
+        revenue: { $sum: "$bill.totalAmount" },
+        patients: { $sum: 1 },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        year: "$_id.year",
+        month: "$_id.month",
+        revenue: 1,
+        patients: 1,
+      },
+    },
+    { $sort: { year: -1, month: -1 } },
+    { $limit: 12 },
+  ]);
+  return res.json(rows);
+});
+
 app.get("/api/doctors", auth, async (_req, res) => {
   const doctors = await Doctor.find().sort({ createdAt: -1 });
   res.json(doctors);
